@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okalux Quote Request Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #1e3c72;
+            --primary-dark: #0f2247;
+            --secondary-color: #2a5298;
+            --accent-color: #4a90e2;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.16);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(30, 60, 114, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(42, 82, 152, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(74, 144, 226, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Unit Toggle */
+        .unit-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+        }
+        
+        .unit-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .unit-toggle label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .unit-toggle select {
+            padding: 6px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .unit-toggle select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+        
+        /* Form Sections */
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .form-section:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .form-section:hover::before {
+            opacity: 1;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-bg);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Form Layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .form-row-thirds {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        /* Form Elements */
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 0.95em;
+        }
+        
+        .required {
+            color: var(--danger-color);
+            margin-left: 4px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--light-bg);
+            font-family: inherit;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+        }
+        
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* Input with Suffix */
+        .input-suffix {
+            position: relative;
+        }
+        
+        .input-suffix input {
+            padding-right: 60px;
+        }
+        
+        .suffix {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-weight: 500;
+            pointer-events: none;
+        }
+        
+        /* Checkbox Styles */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .checkbox-group input[type="checkbox"]:checked {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        /* Info and Warning Boxes */
+        .info-box, .warning-box {
+            padding: 20px;
+            margin: 24px 0;
+            border-radius: 8px;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .info-box::before, .warning-box::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-box {
+            background: rgba(74, 144, 226, 0.1);
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            color: var(--primary-color);
+        }
+        
+        .info-box::before {
+            content: 'i';
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+        }
+        
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #856404;
+        }
+        
+        .warning-box::before {
+            content: '!';
+            background: var(--warning-color);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+        }
+        
+        /* File Upload Area */
+        .file-upload-area {
+            border: 3px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: 20px;
+            position: relative;
+            background: var(--light-bg);
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--accent-color);
+            background: white;
+            transform: scale(1.02);
+        }
+        
+        .file-upload-area.drag-over {
+            border-color: var(--success-color);
+            background: rgba(40, 167, 69, 0.05);
+        }
+        
+        .file-upload-area input[type="file"] {
+            display: none;
+        }
+        
+        .file-upload-area p {
+            margin: 8px 0;
+        }
+        
+        .file-upload-area p:first-child {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .file-upload-area p:last-child {
+            font-size: 0.9em;
+            color: var(--text-muted);
+        }
+        
+        /* File List */
+        .file-list {
+            margin-top: 16px;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--light-bg);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+        
+        .file-item:hover {
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .file-item span:first-child {
+            font-size: 0.95em;
+            color: var(--text-dark);
+        }
+        
+        .remove-file {
+            color: var(--danger-color);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2em;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .remove-file:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+        
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: var(--text-muted);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .spinner {
+            border: 4px solid var(--light-bg);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Success/Error Messages */
+        .success-message, .error-message {
+            display: none;
+            padding: 24px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .success-message {
+            background: rgba(40, 167, 69, 0.1);
+            color: #155724;
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+        
+        .success-message h3 {
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+        
+        .error-message {
+            background: rgba(220, 53, 69, 0.1);
+            color: #721c24;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
+            cursor: help;
+        }
+        
+        .tooltip-icon {
+            background: var(--text-muted);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+        
+        .tooltip:hover .tooltip-icon {
+            background: var(--accent-color);
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 280px;
+            background-color: rgba(33, 37, 41, 0.95);
+            color: white;
+            text-align: left;
+            padding: 12px 16px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            font-size: 14px;
+            line-height: 1.5;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(10px);
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: rgba(33, 37, 41, 0.95) transparent transparent transparent;
+        }
+        
+        /* Glass Pane Section */
+        .glass-pane-section {
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .glass-pane-section h3 {
+            margin-top: 0 !important;
+        }
+        
+        /* Product Specific Fields */
+        .product-specific-fields {
+            display: none;
+            margin-top: 30px;
+            padding: 24px;
+            background: var(--light-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .product-specific-fields h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .form-section {
+                padding: 30px 20px;
+            }
+            
+            .form-row,
+            .form-row-thirds {
+                grid-template-columns: 1fr;
+            }
+            
+            .unit-toggle {
+                position: static;
+                margin: 0 auto 20px;
+                width: fit-content;
+            }
+            
+            .section-title {
+                font-size: 1.4em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .tooltip-text {
+                width: 200px;
+                margin-left: -100px;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .unit-toggle,
+            .btn-secondary,
+            .remove-file {
+                display: none;
+            }
+            
+            .form-section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* Accessibility */
+        :focus-visible {
+            outline: 3px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+        
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="unit-toggle">
+        <label for="unitToggle">Units:</label>
+        <select id="unitToggle" onchange="toggleUnits()">
+            <option value="mm">Metric (mm)</option>
+            <option value="in">Imperial (inches)</option>
+        </select>
+    </div>
+    
+    <header class="header">
+        <h1>Okalux Quote Request Form</h1>
+        <p>Professional Glass Solutions for Your Project</p>
+    </header>
+    
+    <div class="container">
+        <!-- Web3Forms Integration - Just add your access key! -->
+        <form id="quoteForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
+            <!-- Web3Forms Access Key -->
+            <input type="hidden" name="access_key" value="6bbfac54-5f23-4f73-a25a-08e70758e7d1">
+            
+            <!-- Optional: Redirect to a custom success page -->
+            <input type="hidden" name="redirect" value="https://web3forms.com/success">
+            
+            <!-- Optional: Custom subject line for emails -->
+            <input type="hidden" name="subject" value="New Okalux Quote Request">
+            
+            <!-- Section 1: Contact Information -->
+            <section class="form-section">
+                <h2 class="section-title">
+                    <span class="section-number">1</span>
+                    Contact Information
+                </h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer_name">
+                            Your Name
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="customer_name" name="customer_name" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">
+                            Company
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="company" name="company" required aria-required="true">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">
+                            Email
+                            <span class="required">*</span>
+                        </label>
+                        <input type="email" id="email" name="email" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 2: Project Information -->
+            <section class="form-section">
+                <h2 class="section-title">
+                    <span class="section-number">2</span>
+                    Project Information
+                </h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="project_name">
+                            Project Name
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="project_name" name="project_name" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project_location">Project Location</label>
+                        <input type="text" id="project_location" name="project_location" placeholder="City, State/Country">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="timeline">Project Timeline</label>
+                    <input type="text" id="timeline" name="timeline" placeholder="e.g., Q2 2024, 6 months, ASAP">
+                </div>
+                
+                <h3 style="margin-top: 40px; margin-bottom: 24px; color: var(--primary-color);">Architect Information</h3>
+                
+                <div class="form-group">
+                    <label for="architect_firm">Architect Firm</label>
+                    <input type="text" id="architect_firm" name="architect_firm">
+                </div>
+                
+                <h3 style="margin-top: 40px; margin-bottom: 24px; color: var(--primary-color);">Delivery Address</h3>
+                
+                <div class="form-group">
+                    <label for="delivery_company">Company/Site Name</label>
+                    <input type="text" id="delivery_company" name="delivery_company" placeholder="Company name or job site name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="delivery_address">
+                        Street Address
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="delivery_address" name="delivery_address" required aria-required="true">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="delivery_city">
+                            City
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="delivery_city" name="delivery_city" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="delivery_state">
+                            State/Province
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="delivery_state" name="delivery_state" required aria-required="true">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="delivery_zip">
+                            ZIP/Postal Code
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="delivery_zip" name="delivery_zip" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="delivery_country">
+                            Country
+                            <span class="required">*</span>
+                        </label>
+                        <select id="delivery_country" name="delivery_country" required aria-required="true">
+                            <option value="">-- Select Country --</option>
+                            <option value="USA">United States</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="needs_customs_broker" name="needs_customs_broker" value="yes">
+                    <label for="needs_customs_broker">We need assistance with customs brokerage</label>
+                </div>
+            </section>
+            
+            <!-- Section 3: Product Configuration -->
+            <section class="form-section">
+                <h2 class="section-title">
+                    <span class="section-number">3</span>
+                    Product Configuration
+                </h2>
+                
+                <div class="form-group">
+                    <label for="product_type">
+                        Product Type
+                        <span class="required">*</span>
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Select the Okalux product that best suits your project requirements. Each product has different features and maximum dimensions.</span>
+                        </span>
+                    </label>
+                    <select id="product_type" name="product_type" required aria-required="true" onchange="handleProductChange()">
+                        <option value="">-- Select a Product --</option>
+                        <optgroup label="OKALUX Series">
+                            <option value="OKALUX">OKALUX Light Diffusing Glass</option>
+                            <option value="OKALUX HPI">OKALUX HPI (High Performance Insulation)</option>
+                            <option value="OKALUX K">OKALUX K (Triple Pane)</option>
+                            <option value="OKALUX+">OKALUX+ (Plus)</option>
+                            <option value="OKALUX EVO">OKALUX EVO</option>
+                        </optgroup>
+                        <optgroup label="KAPILUX Series">
+                            <option value="KAPILUX T">KAPILUX T (Transparent)</option>
+                            <option value="KAPILUX W">KAPILUX W (White)</option>
+                        </optgroup>
+                        <optgroup label="OKASOLAR Series">
+                            <option value="OKASOLAR 3D">OKASOLAR 3D (Roof)</option>
+                            <option value="OKASOLAR W">OKASOLAR W (Facade)</option>
+                            <option value="OKASOLAR F">OKASOLAR F (Facade)</option>
+                            <option value="OKASOLAR S">OKASOLAR S (Sloped)</option>
+                            <option value="OKASOLAR P">OKASOLAR P (Privacy)</option>
+                        </optgroup>
+                        <optgroup label="Specialty Products">
+                            <option value="OKATECH">OKATECH (Metal Insert)</option>
+                            <option value="OKATECH P">OKATECH P (Privacy Screen)</option>
+                            <option value="OKAWOOD">OKAWOOD (Timber)</option>
+                            <option value="OKACELL">OKACELL (Photovoltaic)</option>
+                            <option value="OKATHERM">OKATHERM (Standard IG)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="width">
+                            Largest Unit Size Width
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-suffix">
+                            <input type="number" id="width" name="width" min="300" max="6000" required aria-required="true">
+                            <span class="suffix unit-suffix">mm</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="height">
+                            Largest Unit Size Height
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-suffix">
+                            <input type="number" id="height" name="height" min="300" max="6000" required aria-required="true">
+                            <span class="suffix unit-suffix">mm</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="has_shapes" name="has_shapes" value="yes">
+                    <label for="has_shapes">Project includes shaped units (non-rectangular)</label>
+                </div>
+                
+                <div class="warning-box" id="shapes_warning" style="display: none;">
+                    <p><strong>Important:</strong> Please ensure all shaped units are clearly dimensioned in your takeoff drawings. Include radius dimensions for curved edges and angles for non-rectangular shapes.</p>
+                </div>
+                
+                <!-- Product-specific fields -->
+                <div id="okasolar_fields" class="product-specific-fields">
+                    <h3>OKASOLAR Specific Options</h3>
+                    <div class="form-group">
+                        <label for="louvre_type">Louvre Type</label>
+                        <select id="louvre_type" name="louvre_type">
+                            <option value="">-- Select --</option>
+                            <option value="standard">Standard</option>
+                            <option value="perforated">Perforated</option>
+                            <option value="curved">Curved</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="okatech_fields" class="product-specific-fields">
+                    <h3>OKATECH Specific Options</h3>
+                    <div class="form-group">
+                        <label for="metal_finish">Metal Insert Finish</label>
+                        <select id="metal_finish" name="metal_finish">
+                            <option value="">-- Select --</option>
+                            <option value="natural_aluminum">Natural Aluminum</option>
+                            <option value="anodized_silver">Anodized Silver</option>
+                            <option value="anodized_bronze">Anodized Bronze</option>
+                            <option value="anodized_black">Anodized Black</option>
+                            <option value="powder_coated">Powder Coated (Specify RAL)</option>
+                            <option value="stainless_steel">Stainless Steel</option>
+                            <option value="copper">Copper</option>
+                            <option value="brass">Brass</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="ral_color_group" style="display: none;">
+                        <label for="ral_color">RAL Color Code</label>
+                        <input type="text" id="ral_color" name="ral_color" placeholder="e.g., RAL 9005">
+                    </div>
+                </div>
+                
+                <div id="okawood_fields" class="product-specific-fields">
+                    <h3>OKAWOOD Specific Options</h3>
+                    <div class="form-group">
+                        <label for="wood_species">Wood Species</label>
+                        <select id="wood_species" name="wood_species">
+                            <option value="">-- Select --</option>
+                            <option value="obeche">Obeche</option>
+                            <option value="white_seraya">White Seraya</option>
+                            <option value="beech">Beech</option>
+                        </select>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="align_wood_grilles" name="align_wood_grilles" value="yes">
+                        <label for="align_wood_grilles">Wood grilles must align between units</label>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 4: Glass Configuration -->
+            <section class="form-section">
+                <h2 class="section-title">
+                    <span class="section-number">4</span>
+                    Glass Configuration
+                </h2>
+                
+                <div class="form-group">
+                    <label for="pane_configuration">
+                        Glass Pane Configuration
+                        <span class="required">*</span>
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Select double or triple pane configuration. This will determine how many glass surfaces need to be specified.</span>
+                        </span>
+                    </label>
+                    <select id="pane_configuration" name="pane_configuration" required aria-required="true" onchange="updatePaneConfiguration()">
+                        <option value="">-- Select Configuration --</option>
+                        <option value="double">Double Pane (2 Glass Lites)</option>
+                        <option value="triple">Triple Pane (3 Glass Lites)</option>
+                    </select>
+                </div>
+                
+                <div id="glass_panes_container" style="display: none;">
+                    <!-- Pane 1 (Always visible when configuration selected) -->
+                    <div id="pane1_section" class="glass-pane-section">
+                        <h3 style="margin-top: 30px; margin-bottom: 20px; color: var(--primary-color);">Glass Lite 1 (Interior)</h3>
+                        
+                        <div class="form-group">
+                            <label for="pane1_makeup">
+                                Glass Type & Thickness - Lite 1
+                                <span class="required">*</span>
+                            </label>
+                            <select id="pane1_makeup" name="pane1_makeup" required aria-required="true">
+                                <option value="">-- Select Glass Type & Thickness --</option>
+                                <optgroup label="Annealed Glass">
+                                    <option value="4mm_annealed">4mm Annealed</option>
+                                    <option value="5mm_annealed">5mm Annealed</option>
+                                    <option value="6mm_annealed">6mm Annealed</option>
+                                    <option value="8mm_annealed">8mm Annealed</option>
+                                </optgroup>
+                                <optgroup label="Tempered Glass">
+                                    <option value="4mm_tempered">4mm Tempered</option>
+                                    <option value="5mm_tempered">5mm Tempered</option>
+                                    <option value="6mm_tempered">6mm Tempered</option>
+                                    <option value="8mm_tempered">8mm Tempered</option>
+                                </optgroup>
+                                <optgroup label="Heat Strengthened Glass">
+                                    <option value="4mm_heat_strengthened">4mm Heat Strengthened</option>
+                                    <option value="5mm_heat_strengthened">5mm Heat Strengthened</option>
+                                    <option value="6mm_heat_strengthened">6mm Heat Strengthened</option>
+                                    <option value="8mm_heat_strengthened">8mm Heat Strengthened</option>
+                                </optgroup>
+                                <optgroup label="Laminated Annealed - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_annealed">4mm + 0.03&quot; PVB + 4mm Annealed (8.76mm total)</option>
+                                    <option value="5+0.03+5_annealed">5mm + 0.03&quot; PVB + 5mm Annealed (10.76mm total)</option>
+                                    <option value="6+0.03+6_annealed">6mm + 0.03&quot; PVB + 6mm Annealed (12.76mm total)</option>
+                                    <option value="8+0.03+8_annealed">8mm + 0.03&quot; PVB + 8mm Annealed (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Tempered - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_tempered">4mm + 0.03&quot; PVB + 4mm Tempered (8.76mm total)</option>
+                                    <option value="5+0.03+5_tempered">5mm + 0.03&quot; PVB + 5mm Tempered (10.76mm total)</option>
+                                    <option value="6+0.03+6_tempered">6mm + 0.03&quot; PVB + 6mm Tempered (12.76mm total)</option>
+                                    <option value="8+0.03+8_tempered">8mm + 0.03&quot; PVB + 8mm Tempered (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Heat Strengthened - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_heat_strengthened">4mm + 0.03&quot; PVB + 4mm Heat Strengthened (8.76mm total)</option>
+                                    <option value="5+0.03+5_heat_strengthened">5mm + 0.03&quot; PVB + 5mm Heat Strengthened (10.76mm total)</option>
+                                    <option value="6+0.03+6_heat_strengthened">6mm + 0.03&quot; PVB + 6mm Heat Strengthened (12.76mm total)</option>
+                                    <option value="8+0.03+8_heat_strengthened">8mm + 0.03&quot; PVB + 8mm Heat Strengthened (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Annealed - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_annealed">4mm + 0.06&quot; PVB + 4mm Annealed (9.52mm total)</option>
+                                    <option value="5+0.06+5_annealed">5mm + 0.06&quot; PVB + 5mm Annealed (11.52mm total)</option>
+                                    <option value="6+0.06+6_annealed">6mm + 0.06&quot; PVB + 6mm Annealed (13.52mm total)</option>
+                                    <option value="8+0.06+8_annealed">8mm + 0.06&quot; PVB + 8mm Annealed (17.52mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Tempered - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_tempered">4mm + 0.06&quot; PVB + 4mm Tempered (9.52mm total)</option>
+                                    <option value="5+0.06+5_tempered">5mm + 0.06&quot; PVB + 5mm Tempered (11.52mm total)</option>
+                                    <option value="6+0.06+6_tempered">6mm + 0.06&quot; PVB + 6mm Tempered (13.52mm total)</option>
+                                    <option value="8+0.06+8_tempered">8mm + 0.06&quot; PVB + 8mm Tempered (17.52mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Heat Strengthened - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_heat_strengthened">4mm + 0.06&quot; PVB + 4mm Heat Strengthened (9.52mm total)</option>
+                                    <option value="5+0.06+5_heat_strengthened">5mm + 0.06&quot; PVB + 5mm Heat Strengthened (11.52mm total)</option>
+                                    <option value="6+0.06+6_heat_strengthened">6mm + 0.06&quot; PVB + 6mm Heat Strengthened (13.52mm total)</option>
+                                    <option value="8+0.06+8_heat_strengthened">8mm + 0.06&quot; PVB + 8mm Heat Strengthened (17.52mm total)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Pane 2 (Visible for double and triple) -->
+                    <div id="pane2_section" class="glass-pane-section" style="display: none;">
+                        <h3 style="margin-top: 30px; margin-bottom: 20px; color: var(--primary-color);">Glass Lite 2 <span id="pane2_label">(Middle)</span></h3>
+                        
+                        <div class="form-group">
+                            <label for="pane2_makeup">
+                                Glass Type & Thickness - Lite 2
+                                <span class="required">*</span>
+                            </label>
+                            <select id="pane2_makeup" name="pane2_makeup" required aria-required="true">
+                                <option value="">-- Select Glass Type & Thickness --</option>
+                                <optgroup label="Annealed Glass">
+                                    <option value="4mm_annealed">4mm Annealed</option>
+                                    <option value="5mm_annealed">5mm Annealed</option>
+                                    <option value="6mm_annealed">6mm Annealed</option>
+                                    <option value="8mm_annealed">8mm Annealed</option>
+                                </optgroup>
+                                <optgroup label="Tempered Glass">
+                                    <option value="4mm_tempered">4mm Tempered</option>
+                                    <option value="5mm_tempered">5mm Tempered</option>
+                                    <option value="6mm_tempered">6mm Tempered</option>
+                                    <option value="8mm_tempered">8mm Tempered</option>
+                                </optgroup>
+                                <optgroup label="Heat Strengthened Glass">
+                                    <option value="4mm_heat_strengthened">4mm Heat Strengthened</option>
+                                    <option value="5mm_heat_strengthened">5mm Heat Strengthened</option>
+                                    <option value="6mm_heat_strengthened">6mm Heat Strengthened</option>
+                                    <option value="8mm_heat_strengthened">8mm Heat Strengthened</option>
+                                </optgroup>
+                                <optgroup label="Laminated Annealed - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_annealed">4mm + 0.03&quot; PVB + 4mm Annealed (8.76mm total)</option>
+                                    <option value="5+0.03+5_annealed">5mm + 0.03&quot; PVB + 5mm Annealed (10.76mm total)</option>
+                                    <option value="6+0.03+6_annealed">6mm + 0.03&quot; PVB + 6mm Annealed (12.76mm total)</option>
+                                    <option value="8+0.03+8_annealed">8mm + 0.03&quot; PVB + 8mm Annealed (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Tempered - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_tempered">4mm + 0.03&quot; PVB + 4mm Tempered (8.76mm total)</option>
+                                    <option value="5+0.03+5_tempered">5mm + 0.03&quot; PVB + 5mm Tempered (10.76mm total)</option>
+                                    <option value="6+0.03+6_tempered">6mm + 0.03&quot; PVB + 6mm Tempered (12.76mm total)</option>
+                                    <option value="8+0.03+8_tempered">8mm + 0.03&quot; PVB + 8mm Tempered (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Heat Strengthened - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_heat_strengthened">4mm + 0.03&quot; PVB + 4mm Heat Strengthened (8.76mm total)</option>
+                                    <option value="5+0.03+5_heat_strengthened">5mm + 0.03&quot; PVB + 5mm Heat Strengthened (10.76mm total)</option>
+                                    <option value="6+0.03+6_heat_strengthened">6mm + 0.03&quot; PVB + 6mm Heat Strengthened (12.76mm total)</option>
+                                    <option value="8+0.03+8_heat_strengthened">8mm + 0.03&quot; PVB + 8mm Heat Strengthened (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Annealed - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_annealed">4mm + 0.06&quot; PVB + 4mm Annealed (9.52mm total)</option>
+                                    <option value="5+0.06+5_annealed">5mm + 0.06&quot; PVB + 5mm Annealed (11.52mm total)</option>
+                                    <option value="6+0.06+6_annealed">6mm + 0.06&quot; PVB + 6mm Annealed (13.52mm total)</option>
+                                    <option value="8+0.06+8_annealed">8mm + 0.06&quot; PVB + 8mm Annealed (17.52mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Tempered - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_tempered">4mm + 0.06&quot; PVB + 4mm Tempered (9.52mm total)</option>
+                                    <option value="5+0.06+5_tempered">5mm + 0.06&quot; PVB + 5mm Tempered (11.52mm total)</option>
+                                    <option value="6+0.06+6_tempered">6mm + 0.06&quot; PVB + 6mm Tempered (13.52mm total)</option>
+                                    <option value="8+0.06+8_tempered">8mm + 0.06&quot; PVB + 8mm Tempered (17.52mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Heat Strengthened - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_heat_strengthened">4mm + 0.06&quot; PVB + 4mm Heat Strengthened (9.52mm total)</option>
+                                    <option value="5+0.06+5_heat_strengthened">5mm + 0.06&quot; PVB + 5mm Heat Strengthened (11.52mm total)</option>
+                                    <option value="6+0.06+6_heat_strengthened">6mm + 0.06&quot; PVB + 6mm Heat Strengthened (13.52mm total)</option>
+                                    <option value="8+0.06+8_heat_strengthened">8mm + 0.06&quot; PVB + 8mm Heat Strengthened (17.52mm total)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Pane 3 (Only visible for triple) -->
+                    <div id="pane3_section" class="glass-pane-section" style="display: none;">
+                        <h3 style="margin-top: 30px; margin-bottom: 20px; color: var(--primary-color);">Glass Lite 3 (Exterior)</h3>
+                        
+                        <div class="form-group">
+                            <label for="pane3_makeup">
+                                Glass Type & Thickness - Lite 3
+                                <span class="required">*</span>
+                            </label>
+                            <select id="pane3_makeup" name="pane3_makeup">
+                                <option value="">-- Select Glass Type & Thickness --</option>
+                                <optgroup label="Annealed Glass">
+                                    <option value="4mm_annealed">4mm Annealed</option>
+                                    <option value="5mm_annealed">5mm Annealed</option>
+                                    <option value="6mm_annealed">6mm Annealed</option>
+                                    <option value="8mm_annealed">8mm Annealed</option>
+                                </optgroup>
+                                <optgroup label="Tempered Glass">
+                                    <option value="4mm_tempered">4mm Tempered</option>
+                                    <option value="5mm_tempered">5mm Tempered</option>
+                                    <option value="6mm_tempered">6mm Tempered</option>
+                                    <option value="8mm_tempered">8mm Tempered</option>
+                                </optgroup>
+                                <optgroup label="Heat Strengthened Glass">
+                                    <option value="4mm_heat_strengthened">4mm Heat Strengthened</option>
+                                    <option value="5mm_heat_strengthened">5mm Heat Strengthened</option>
+                                    <option value="6mm_heat_strengthened">6mm Heat Strengthened</option>
+                                    <option value="8mm_heat_strengthened">8mm Heat Strengthened</option>
+                                </optgroup>
+                                <optgroup label="Laminated Annealed - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_annealed">4mm + 0.03&quot; PVB + 4mm Annealed (8.76mm total)</option>
+                                    <option value="5+0.03+5_annealed">5mm + 0.03&quot; PVB + 5mm Annealed (10.76mm total)</option>
+                                    <option value="6+0.03+6_annealed">6mm + 0.03&quot; PVB + 6mm Annealed (12.76mm total)</option>
+                                    <option value="8+0.03+8_annealed">8mm + 0.03&quot; PVB + 8mm Annealed (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Tempered - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_tempered">4mm + 0.03&quot; PVB + 4mm Tempered (8.76mm total)</option>
+                                    <option value="5+0.03+5_tempered">5mm + 0.03&quot; PVB + 5mm Tempered (10.76mm total)</option>
+                                    <option value="6+0.03+6_tempered">6mm + 0.03&quot; PVB + 6mm Tempered (12.76mm total)</option>
+                                    <option value="8+0.03+8_tempered">8mm + 0.03&quot; PVB + 8mm Tempered (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Heat Strengthened - 0.03&quot; (0.76mm) PVB">
+                                    <option value="4+0.03+4_heat_strengthened">4mm + 0.03&quot; PVB + 4mm Heat Strengthened (8.76mm total)</option>
+                                    <option value="5+0.03+5_heat_strengthened">5mm + 0.03&quot; PVB + 5mm Heat Strengthened (10.76mm total)</option>
+                                    <option value="6+0.03+6_heat_strengthened">6mm + 0.03&quot; PVB + 6mm Heat Strengthened (12.76mm total)</option>
+                                    <option value="8+0.03+8_heat_strengthened">8mm + 0.03&quot; PVB + 8mm Heat Strengthened (16.76mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Annealed - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_annealed">4mm + 0.06&quot; PVB + 4mm Annealed (9.52mm total)</option>
+                                    <option value="5+0.06+5_annealed">5mm + 0.06&quot; PVB + 5mm Annealed (11.52mm total)</option>
+                                    <option value="6+0.06+6_annealed">6mm + 0.06&quot; PVB + 6mm Annealed (13.52mm total)</option>
+                                    <option value="8+0.06+8_annealed">8mm + 0.06&quot; PVB + 8mm Annealed (17.52mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Tempered - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_tempered">4mm + 0.06&quot; PVB + 4mm Tempered (9.52mm total)</option>
+                                    <option value="5+0.06+5_tempered">5mm + 0.06&quot; PVB + 5mm Tempered (11.52mm total)</option>
+                                    <option value="6+0.06+6_tempered">6mm + 0.06&quot; PVB + 6mm Tempered (13.52mm total)</option>
+                                    <option value="8+0.06+8_tempered">8mm + 0.06&quot; PVB + 8mm Tempered (17.52mm total)</option>
+                                </optgroup>
+                                <optgroup label="Laminated Heat Strengthened - 0.06&quot; (1.52mm) PVB">
+                                    <option value="4+0.06+4_heat_strengthened">4mm + 0.06&quot; PVB + 4mm Heat Strengthened (9.52mm total)</option>
+                                    <option value="5+0.06+5_heat_strengthened">5mm + 0.06&quot; PVB + 5mm Heat Strengthened (11.52mm total)</option>
+                                    <option value="6+0.06+6_heat_strengthened">6mm + 0.06&quot; PVB + 6mm Heat Strengthened (13.52mm total)</option>
+                                    <option value="8+0.06+8_heat_strengthened">8mm + 0.06&quot; PVB + 8mm Heat Strengthened (17.52mm total)</option>
+                                </optgroup>
+                            </select>
+                
